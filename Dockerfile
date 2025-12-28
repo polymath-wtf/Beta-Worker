@@ -143,8 +143,8 @@ RUN if [ "$MODEL_TYPE" = "Wan_i2v_default" ]; then \
     fi
 
 RUN if [ "$MODEL_TYPE" = "Wan_i2v_dasiwa" ]; then \
-      wget -q -O models/unet/DasiwaWAN22I2V14BV8V1_midnightflirtHighV7.safetensors https://civitai.com/api/download/models/2388548?token=${CIVITAI_ACCESS_TOKEN} && \
-      wget -q -O models/unet/DasiwaWAN22I2V14BV8V1_midnightflirtLowV7.safetensors https://civitai.com/api/download/models/2388627?token=${CIVITAI_ACCESS_TOKEN} && \
+      wget -q -O models/unet/DasiwaWAN22I2V14BV8V1_midnightflirtHighV7.safetensors https://civitai.com/api/download/models/2388548?token=a547f3f6fd542f90d0c18ab7aa51d2f7 && \
+      wget -q -O models/unet/DasiwaWAN22I2V14BV8V1_midnightflirtLowV7.safetensors https://civitai.com/api/download/models/2388627?token=a547f3f6fd542f90d0c18ab7aa51d2f7 && \
       wget -q -O models/clip/umt5_xxl_fp8_e4m3fn_scaled.safetensors https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors && \
       wget -q -O models/clip_vision/clip_vision_h.safetensors https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/clip_vision/clip_vision_h.safetensors && \
       wget -q -O models/vae/wan_2.1_vae.safetensors https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors && \
