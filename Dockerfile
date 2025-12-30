@@ -92,7 +92,7 @@ RUN comfy-node-install \
     rgthree-comfy \
     comfyui-gguf \
     comfyui-wanvideowrapper \
-#    comfyui-kjnodes \
+    comfyui-kjnodes \
     comfyui-multigpu \
     comfyui-easy-use \
     was-node-suite-comfyui \
@@ -109,12 +109,13 @@ RUN comfy-node-install \
     comfyui-ic-light \
     comfyui-art-venture \
     efficiency-nodes-comfyui
-# Install custom node from GitHub (not in registry)
-RUN git clone https://github.com/polymath-wtf/ComfyUI-Polymath-Vibenodes.git /comfyui/custom_nodes/ComfyUI-Polymath-Vibenodes
-RUN git clone https://github.com/kijai/ComfyUI-KJNodes.git /comfyui/custom_nodes/ComfyUI-KJNodes && \
-    cd /comfyui/custom_nodes/ComfyUI-KJNodes && \
-    git checkout 7b1327192e4729085788a3020a9cbb095e0c7811 && \
-    uv pip install -r requirements.txt
+    
+# Install KJnodes from GitHub (manual comit)
+# RUN git clone https://github.com/polymath-wtf/ComfyUI-Polymath-Vibenodes.git /comfyui/custom_nodes/ComfyUI-Polymath-Vibenodes
+# RUN git clone https://github.com/kijai/ComfyUI-KJNodes.git /comfyui/custom_nodes/ComfyUI-KJNodes && \
+#    cd /comfyui/custom_nodes/ComfyUI-KJNodes && \
+#    git checkout 7b1327192e4729085788a3020a9cbb095e0c7811 && \
+#    uv pip install -r requirements.txt
 # Copy helper script to switch Manager network mode at container start
 COPY scripts/comfy-manager-set-mode.sh /usr/local/bin/comfy-manager-set-mode
 RUN chmod +x /usr/local/bin/comfy-manager-set-mode
@@ -155,8 +156,8 @@ RUN if [ "$MODEL_TYPE" = "Wan_i2v_dasiwa" ]; then \
       wget -q -O models/vae/wan_2.1_vae.safetensors https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors && \
       wget -q -O models/loras/wan2.2_i2v_A14b_high_noise_lora_rank64_lightx2v_4step_1022.safetensors https://huggingface.co/lightx2v/Wan2.2-Distill-Loras/resolve/main/wan2.2_i2v_A14b_high_noise_lora_rank64_lightx2v_4step_1022.safetensors && \
       wget -q -O models/loras/wan2.2_i2v_A14b_low_noise_lora_rank64_lightx2v_4step_1022.safetensors https://huggingface.co/lightx2v/Wan2.2-Distill-Loras/resolve/main/wan2.2_i2v_A14b_low_noise_lora_rank64_lightx2v_4step_1022.safetensors && \
-      wget -q -O models/loras/quality/svi/SVI_Wan2.2-I2V-A14B_high_noise_lora_v2.0_pro.safetensors https://huggingface.co/vita-video-gen/svi-model/resolve/main/version-2.0/SVI_Wan2.2-I2V-A14B_high_noise_lora_v2.0_pro.safetensors && \
-      wget -q -O models/loras/quality/svi/SVI_Wan2.2-I2V-A14B_low_noise_lora_v2.0_pro.safetensors https://huggingface.co/vita-video-gen/svi-model/resolve/main/version-2.0/SVI_Wan2.2-I2V-A14B_low_noise_lora_v2.0_pro.safetensors; \
+      wget -q -O models/loras/SVI_Wan2.2-I2V-A14B_high_noise_lora_v2.0_pro.safetensors https://huggingface.co/vita-video-gen/svi-model/resolve/main/version-2.0/SVI_Wan2.2-I2V-A14B_high_noise_lora_v2.0_pro.safetensors && \
+      wget -q -O models/loras/SVI_Wan2.2-I2V-A14B_low_noise_lora_v2.0_pro.safetensors https://huggingface.co/vita-video-gen/svi-model/resolve/main/version-2.0/SVI_Wan2.2-I2V-A14B_low_noise_lora_v2.0_pro.safetensors; \
     fi
     
 RUN if [ "$MODEL_TYPE" = "flux1-dev" ]; then \
