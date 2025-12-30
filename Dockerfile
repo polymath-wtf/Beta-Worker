@@ -92,7 +92,7 @@ RUN comfy-node-install \
     rgthree-comfy \
     comfyui-gguf \
     comfyui-wanvideowrapper \
-    comfyui-kjnodes \
+#    comfyui-kjnodes \
     comfyui-multigpu \
     comfyui-easy-use \
     was-node-suite-comfyui \
@@ -111,7 +111,10 @@ RUN comfy-node-install \
     efficiency-nodes-comfyui
 # Install custom node from GitHub (not in registry)
 RUN git clone https://github.com/polymath-wtf/ComfyUI-Polymath-Vibenodes.git /comfyui/custom_nodes/ComfyUI-Polymath-Vibenodes
-
+RUN git clone https://github.com/kijai/ComfyUI-KJNodes.git /comfyui/custom_nodes/ComfyUI-KJNodes && \
+    cd /comfyui/custom_nodes/ComfyUI-KJNodes && \
+    git checkout 7b1327192e4729085788a3020a9cbb095e0c7811 && \
+    uv pip install -r requirements.txt
 # Copy helper script to switch Manager network mode at container start
 COPY scripts/comfy-manager-set-mode.sh /usr/local/bin/comfy-manager-set-mode
 RUN chmod +x /usr/local/bin/comfy-manager-set-mode
