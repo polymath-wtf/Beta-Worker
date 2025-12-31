@@ -116,6 +116,12 @@ RUN git clone https://github.com/kijai/ComfyUI-KJNodes.git /comfyui/custom_nodes
     cd /comfyui/custom_nodes/ComfyUI-KJNodes && \
     git checkout 7b1327192e4729085788a3020a9cbb095e0c7811 && \
     uv pip install -r requirements.txt
+    # Install ComfyUI-WanVideoWrapper at SVI commit
+RUN git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git /comfyui/custom_nodes/ComfyUI-WanVideoWrapper && \
+    cd /comfyui/custom_nodes/ComfyUI-WanVideoWrapper && \
+    git checkout f28e7da442b03fa32918e0251ceb403e80fedf1d && \
+    uv pip install -r requirements.txt
+
 # Copy helper script to switch Manager network mode at container start
 COPY scripts/comfy-manager-set-mode.sh /usr/local/bin/comfy-manager-set-mode
 RUN chmod +x /usr/local/bin/comfy-manager-set-mode
@@ -166,12 +172,6 @@ RUN if [ "$MODEL_TYPE" = "flux1-krea" ]; then \
       wget -q -O models/clip/t5xxl_fp8_e4m3fn.safetensors https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/t5xxl_fp8_e4m3fn.safetensors && \
       wget -q --header="Authorization: Bearer ${HUGGINGFACE_ACCESS_TOKEN}" -O models/vae/ae.safetensors https://huggingface.co/black-forest-labs/FLUX.1-dev/resolve/main/ae.safetensors; \
     fi
-
-# Install ComfyUI-WanVideoWrapper at SVI commit
-RUN git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git /comfyui/custom_nodes/ComfyUI-WanVideoWrapper && \
-    cd /comfyui/custom_nodes/ComfyUI-WanVideoWrapper && \
-    git checkout f28e7da442b03fa32918e0251ceb403e80fedf1d && \
-    uv pip install -r requirements.txt
 
 # Stage 3: Final image
 FROM base AS final
