@@ -538,6 +538,7 @@ def handler(job):
     client_id = str(uuid.uuid4())
     prompt_id = None
     output_data = []
+    text_outputs = []
     errors = []
 
     try:
@@ -755,8 +756,25 @@ def handler(job):
                         error_msg = f"Failed to fetch image data for {filename} from /view endpoint."
                         errors.append(error_msg)
 
-            # Check for other output types
-            other_keys = [k for k in node_output.keys() if k != "images"]
+            # Handle text outputs from "easy showAnything" nodes
+            if "text" in node_output:
+                # Get the node's class_type from the original prompt to filter by node type
+                prompt_data = prompt_history.get("prompt", {})
+                node_info = prompt_data.get(node_id, {})
+                node_class_type = node_info.get("class_type", "")
+
+                # Only capture text from "easy showAnything" nodes
+                if node_class_type == "easy showAnything":
+                    for text_item in node_output["text"]:
+                        text_outputs.append({
+                            "node_id": node_id,
+                            "type": "text",
+                            "data": text_item
+                        })
+                        print(f"worker-comfyui - Node {node_id} (easy showAnything) text output captured")
+
+            # Check for other output types (excluding images and text which are now handled)
+            other_keys = [k for k in node_output.keys() if k not in ("images", "text")]
             if other_keys:
                 warn_msg = (
                     f"Node {node_id} produced unhandled output keys: {other_keys}."
@@ -791,6 +809,10 @@ def handler(job):
 
     if output_data:
         final_result["images"] = output_data
+
+    if text_outputs:
+        final_result["texts"] = text_outputs
+        print(f"worker-comfyui - Returning {len(text_outputs)} text output(s) from easy showAnything nodes.")
 
     if errors:
         final_result["errors"] = errors
