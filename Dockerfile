@@ -102,7 +102,7 @@ RUN comfy-node-install \
     comfyui-gguf \
 #    comfyui-wanvideowrapper \
 #    comfyui-kjnodes \
-    comfyui-multigpu \
+#    comfyui-multigpu \
     comfyui-easy-use \
     was-node-suite-comfyui \
     comfyui-custom-scripts \
