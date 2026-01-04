@@ -1,5 +1,5 @@
 # Build argument for base image selection
-ARG BASE_IMAGE=nvidia/cuda:13.0.2-cudnn-runtime-ubuntu24.04
+ARG BASE_IMAGE=nvidia/cuda:12.9.1-cudnn-runtime-ubuntu24.04
 
 # Stage 1: Base image with common dependencies
 FROM ${BASE_IMAGE} AS base
@@ -8,7 +8,7 @@ FROM ${BASE_IMAGE} AS base
 ARG COMFYUI_VERSION=latest
 ARG CUDA_VERSION_FOR_COMFY
 ARG ENABLE_PYTORCH_UPGRADE=true
-ARG PYTORCH_INDEX_URL="https://download.pytorch.org/whl/cu130"
+ARG PYTORCH_INDEX_URL="https://download.pytorch.org/whl/cu129"
 # Abracadabra
 
 # Prevents prompts from packages asking for user input during installation
