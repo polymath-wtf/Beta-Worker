@@ -7,8 +7,8 @@ FROM ${BASE_IMAGE} AS base
 # Build arguments for this stage with sensible defaults for standalone builds
 ARG COMFYUI_VERSION=latest
 ARG CUDA_VERSION_FOR_COMFY
-# ARG ENABLE_PYTORCH_UPGRADE=false
-ARG PYTORCH_INDEX_URL="https://download.pytorch.org/whl/cu128"
+ARG ENABLE_PYTORCH_UPGRADE=false
+ARG PYTORCH_INDEX_URL=
 # Abracadabra
 
 # Prevents prompts from packages asking for user input during installation
@@ -60,9 +60,9 @@ RUN if [ -n "${CUDA_VERSION_FOR_COMFY}" ]; then \
     fi
 
 # Upgrade PyTorch if needed (for newer CUDA versions)
-# RUN if [ "$ENABLE_PYTORCH_UPGRADE" = "true" ]; then \
-#      uv pip install --force-reinstall torch torchvision torchaudio --index-url ${PYTORCH_INDEX_URL}; \
-#    fi
+RUN if [ "$ENABLE_PYTORCH_UPGRADE" = "true" ]; then \
+    uv pip install --force-reinstall torch torchvision torchaudio --index-url ${PYTORCH_INDEX_URL}; \
+    fi
 
 # Install Triton + SageAttention
 RUN uv pip install --upgrade "triton==3.5.1" \
@@ -144,7 +144,7 @@ FROM base AS downloader
 ARG HUGGINGFACE_ACCESS_TOKEN
 ARG CIVITAI_ACCESS_TOKEN
 # Set default model type if none is provided
-ARG MODEL_TYPE=clear
+ARG MODEL_TYPE=fast
 
 # Change working directory to ComfyUI
 WORKDIR /comfyui
@@ -181,7 +181,11 @@ RUN if [ "$MODEL_TYPE" = "flux1-krea" ]; then \
       wget -q -O models/clip/t5xxl_fp8_e4m3fn.safetensors https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/t5xxl_fp8_e4m3fn.safetensors && \
       wget -q -O models/vae/ae.safetensors https://huggingface.co/Seryoger/Parique_v1/resolve/main/ae.safetensors; \
     fi
-    
+
+RUN if [ "$MODEL_TYPE" = "fast" ]; then \
+      wget -q -O models/vae/wan_2.1_vae.safetensors https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors; \
+    fi
+
 # Stage 3: Final image
 FROM base AS final
 
