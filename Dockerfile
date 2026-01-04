@@ -1,5 +1,5 @@
 # Build argument for base image selection
-ARG BASE_IMAGE=nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04
+ARG BASE_IMAGE=nvidia/cuda:13.0.2-cudnn-runtime-ubuntu24.04
 
 # Stage 1: Base image with common dependencies
 FROM ${BASE_IMAGE} AS base
@@ -7,7 +7,7 @@ FROM ${BASE_IMAGE} AS base
 # Build arguments for this stage with sensible defaults for standalone builds
 ARG COMFYUI_VERSION=latest
 ARG CUDA_VERSION_FOR_COMFY
-ARG ENABLE_PYTORCH_UPGRADE=false
+ARG ENABLE_PYTORCH_UPGRADE=true
 ARG PYTORCH_INDEX_URL
 
 # Prevents prompts from packages asking for user input during installation
@@ -116,7 +116,7 @@ RUN git clone https://github.com/kijai/ComfyUI-KJNodes.git /comfyui/custom_nodes
     cd /comfyui/custom_nodes/ComfyUI-KJNodes && \
     git checkout 7b1327192e4729085788a3020a9cbb095e0c7811 && \
     uv pip install -r requirements.txt
-    # Install ComfyUI-WanVideoWrapper at SVI commit
+    # Install ComfyUI-WanVideoWrapper SVI commit
 RUN git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git /comfyui/custom_nodes/ComfyUI-WanVideoWrapper && \
     cd /comfyui/custom_nodes/ComfyUI-WanVideoWrapper && \
     git checkout f28e7da442b03fa32918e0251ceb403e80fedf1d && \
