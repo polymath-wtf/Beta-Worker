@@ -7,7 +7,7 @@ FROM ${BASE_IMAGE} AS base
 # Build arguments for this stage with sensible defaults for standalone builds
 ARG COMFYUI_VERSION=latest
 ARG CUDA_VERSION_FOR_COMFY
-ARG ENABLE_PYTORCH_UPGRADE=false
+# ARG ENABLE_PYTORCH_UPGRADE=false
 ARG PYTORCH_INDEX_URL="https://download.pytorch.org/whl/cu128"
 # Abracadabra
 
@@ -60,9 +60,9 @@ RUN if [ -n "${CUDA_VERSION_FOR_COMFY}" ]; then \
     fi
 
 # Upgrade PyTorch if needed (for newer CUDA versions)
-RUN if [ "$ENABLE_PYTORCH_UPGRADE" = "true" ]; then \
-      uv pip install --force-reinstall torch torchvision torchaudio --index-url ${PYTORCH_INDEX_URL}; \
-    fi
+# RUN if [ "$ENABLE_PYTORCH_UPGRADE" = "true" ]; then \
+#      uv pip install --force-reinstall torch torchvision torchaudio --index-url ${PYTORCH_INDEX_URL}; \
+#    fi
 
 # Install Triton + SageAttention
 RUN uv pip install --upgrade "triton==3.5.1" \
