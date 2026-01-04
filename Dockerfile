@@ -7,7 +7,7 @@ FROM ${BASE_IMAGE} AS base
 # Build arguments for this stage with sensible defaults for standalone builds
 ARG COMFYUI_VERSION=latest
 ARG CUDA_VERSION_FOR_COMFY
-ARG ENABLE_PYTORCH_UPGRADE=true
+ARG ENABLE_PYTORCH_UPGRADE=false
 ARG PYTORCH_INDEX_URL="https://download.pytorch.org/whl/cu128"
 # Abracadabra
 
@@ -24,6 +24,8 @@ ENV CMAKE_BUILD_PARALLEL_LEVEL=8
 RUN apt-get update && apt-get install -y \
     python3.12 \
     python3.12-venv \
+    python3.12-dev \
+    build-essential \
     git \
     wget \
     libgl1 \
@@ -142,7 +144,7 @@ FROM base AS downloader
 ARG HUGGINGFACE_ACCESS_TOKEN
 ARG CIVITAI_ACCESS_TOKEN
 # Set default model type if none is provided
-ARG MODEL_TYPE=flux1-krea
+ARG MODEL_TYPE=clear
 
 # Change working directory to ComfyUI
 WORKDIR /comfyui
