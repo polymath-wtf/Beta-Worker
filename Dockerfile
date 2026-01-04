@@ -62,6 +62,12 @@ RUN if [ "$ENABLE_PYTORCH_UPGRADE" = "true" ]; then \
       uv pip install --force-reinstall torch torchvision torchaudio --index-url ${PYTORCH_INDEX_URL}; \
     fi
 
+# Install Triton + SageAttention
+RUN uv pip install --upgrade "triton==3.5.1" \
+    && wget -q -O /tmp/sageattention-2.2.0-cp312-cp312-linux_x86_64.whl \
+      "https://huggingface.co/Kijai/PrecompiledWheels/resolve/main/sageattention-2.2.0-cp312-cp312-linux_x86_64.whl" \
+    && uv pip install /tmp/sageattention-2.2.0-cp312-cp312-linux_x86_64.whl \
+    && rm -f /tmp/sageattention-2.2.0-cp312-cp312-linux_x86_64.whl
 # Change working directory to ComfyUI
 WORKDIR /comfyui
 
